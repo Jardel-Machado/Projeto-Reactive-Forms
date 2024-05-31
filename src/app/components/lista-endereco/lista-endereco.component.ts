@@ -26,36 +26,7 @@ export class ListaEnderecoComponent implements OnChanges {
     }
   }
   prepararListaEnderecoParaMostrar() {
-    this.listaEnderecoParaMostrar = [];
-
-    Object.keys(descricaoTipoEnderecoMap)
-      .map(Number)
-      .forEach((tipoEndereco: number) => {
-        const enderecoEncontrado = this.listaEnderecoUsuario?.find(
-          (enderecoUsuario: IEndereco) => enderecoUsuario.tipo === tipoEndereco
-        );
-        this.listaEnderecoParaMostrar.push(
-          this.retornaEnderecoParaMostrar(enderecoEncontrado, tipoEndereco)
-        );
-      });
+    this.listaEnderecoParaMostrar = [];    
   }
-  retornaEnderecoParaMostrar(endereco: IEndereco | undefined, tipoEndereco: number): IEnderecoParaMostrar {
-    if (!endereco) {
-      return {
-        tipoDescricao:
-          descricaoTipoEnderecoMap[tipoEndereco as TipoEnderecoEnum],
-        tipo: tipoEndereco,
-        logradouro: '-',
-        complemento: '-',
-        pais: '-',
-        estado: '-',
-        cidade: '-',
-      };
-    }
-
-    return {
-      tipoDescricao: descricaoTipoEnderecoMap[tipoEndereco as TipoEnderecoEnum],
-      ...endereco,
-    };
-  }
+  
 }
