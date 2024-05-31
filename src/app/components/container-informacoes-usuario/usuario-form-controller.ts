@@ -1,12 +1,12 @@
-import { inject } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { IUsuario } from "../../interfaces/usuario/usuario.interface";
-import { TelefoneList } from "../../types/telefone-list";
-import { EnderecoList } from "../../types/endereco-list";
-import { DependenteList } from "../../types/dependente-list";
-import { converterDataPtBrParaDataObj } from "../../utils/converter-data-pt-br-para-data-obj";
-import { prepararListaTelefone } from "../../utils/preparar-lista-telefone";
-import { TipoTelefoneEnum } from "../../enums/tipo-telefone.enum";
+import { inject } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TipoTelefoneEnum } from '../../enums/tipo-telefone.enum';
+import { IUsuario } from '../../interfaces/usuario/usuario.interface';
+import { DependenteList } from '../../types/dependente-list';
+import { EnderecoList } from '../../types/endereco-list';
+import { TelefoneList } from '../../types/telefone-list';
+import { converterDataPtBrParaDataObj } from '../../utils/converter-data-pt-br-para-data-obj';
+import { prepararListaTelefone } from '../../utils/preparar-lista-telefone';
 
 export class UsuarioFormController {
   usuarioForm!: FormGroup;
@@ -27,15 +27,20 @@ export class UsuarioFormController {
 
     this.prencherListaDeEnderecos(usuario.listaDeEnderecos);
 
-    this.prencherListaDeDependentes(usuario.listaDeDependentes);    
+    this.prencherListaDeDependentes(usuario.listaDeDependentes);
   }
   private resetUsuarioForm() {
-    this.usuarioForm.reset();   
+    this.usuarioForm.reset();
 
-    this.listaDeTelefones.clear();   
+    this.informacoesGeral.reset();
 
-    this.listaDeEnderecos.clear();    
+    this.listaDeTelefones.reset();
+    this.listaDeTelefones.clear();
 
+    this.listaDeEnderecos.reset();
+    this.listaDeEnderecos.clear();
+
+    this.listaDeDependentes.reset();
     this.listaDeDependentes.clear();
   }
 
@@ -43,7 +48,7 @@ export class UsuarioFormController {
     this.usuarioForm = this.formBuilder.group({
       informacoesGeral: this.formBuilder.group({
         nome: ['', Validators.required],
-        email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+        email: ['',[Validators.required, Validators.pattern(this.emailPattern)]],
         pais: ['', Validators.required],
         estado: ['', Validators.required],
         estadoCivil: [null, Validators.required],
@@ -67,16 +72,19 @@ export class UsuarioFormController {
   }
   private prencherListaDeTelefones(listaDeTelefonesUsuario: TelefoneList) {
     prepararListaTelefone(listaDeTelefonesUsuario, false, (telefone) => {
-      const telefoneValidators = telefone.tipo === TipoTelefoneEnum.Emergencia ? [] : [Validators.required]
+      const telefoneValidators =
+        telefone.tipo === TipoTelefoneEnum.Emergencia
+          ? []
+          : [Validators.required];
+
       this.listaDeTelefones.push(
         this.formBuilder.group({
           tipo: [telefone.tipo],
           tipoDescricao: [telefone.tipoDescricao],
           numero: [telefone.numero, telefoneValidators],
         })
-      );     
-
-    });    
+      );
+    });
   }
 
   private prencherListaDeEnderecos(listaDeEnderecosUsuario: EnderecoList) {
@@ -93,9 +101,7 @@ export class UsuarioFormController {
       );
     });
   }
-  private prencherListaDeDependentes(
-    listaDeDependentesUsuario: DependenteList
-  ) {
+  private prencherListaDeDependentes(listaDeDependentesUsuario: DependenteList) {
     listaDeDependentesUsuario.forEach((dependente) => {
       this.listaDeDependentes.push(
         this.formBuilder.group({
@@ -127,4 +133,3 @@ export class UsuarioFormController {
     return this.usuarioForm.get('listaDeDependentes') as FormArray;
   }
 }
-

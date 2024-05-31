@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,8 +8,6 @@ import { FormArray, FormGroup } from '@angular/forms';
 })
 export class ListaTelefoneEditarComponent {
   @Input({ required: true }) usuarioForm!: FormGroup;
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   get listaTelefone(): FormArray {
     return this.usuarioForm.get(

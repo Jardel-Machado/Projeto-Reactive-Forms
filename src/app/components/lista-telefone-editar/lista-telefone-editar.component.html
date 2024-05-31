@@ -1,10 +1,16 @@
 <form class="grid lg:grid-cols-3 lg:gap-4" [formGroup]="usuarioForm">
     <ng-container formGroupName="informacoesContato">
         <ng-container formArrayName="listaDeTelefones">  
-            @for (telefone of listaTelefone.controls; track $index) {
+            @for (telefone of listaTelefone.controls; track telefone) {
                 <mat-form-field class="w-full" [formGroupName]="$index">
                     <mat-label>{{ listaTelefone.value[$index].tipoDescricao }}</mat-label>
                     <input matInput [placeholder]=" listaTelefone.value[$index].tipo | telefonePlaceholder" [mask]="listaTelefone.value[$index].tipo | mascaraTelefone" formControlName="numero">
+                    @if (telefone.get('numero')?.hasError('required')) {
+                        <mat-error>O Telefone é obrigatório.</mat-error>
+                    }
+                    @if (telefone.get('numero')?.hasError('mask')) {
+                        <mat-error>O Telefone é inválido.</mat-error>
+                    }
                 </mat-form-field>
             }             
         </ng-container>        
