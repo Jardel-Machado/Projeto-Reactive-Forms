@@ -7,6 +7,7 @@ import { EnderecoList } from '../../types/endereco-list';
 import { TelefoneList } from '../../types/telefone-list';
 import { converterDataPtBrParaDataObj } from '../../utils/converter-data-pt-br-para-data-obj';
 import { prepararListaTelefone } from '../../utils/preparar-lista-telefone';
+import { prepararListaEndereco } from '../../utils/preparar-lista-endereco';
 
 export class UsuarioFormController {
   usuarioForm!: FormGroup;
@@ -88,18 +89,19 @@ export class UsuarioFormController {
   }
 
   private prencherListaDeEnderecos(listaDeEnderecosUsuario: EnderecoList) {
-    listaDeEnderecosUsuario.forEach((endereco) => {
-      this.listaDeEnderecos.push(
-        this.formBuilder.group({
-          tipo: [endereco.tipo, Validators.required],
-          logradouro: [endereco.logradouro, Validators.required],
-          complemento: [endereco.complemento, Validators.required],
-          cidade: [endereco.cidade, Validators.required],
-          estado: [endereco.estado, Validators.required],
-          pais: [endereco.pais, Validators.required],
+    prepararListaEndereco(listaDeEnderecosUsuario, false, (endereco) => {
+      this.listaDeEnderecos.push(this.formBuilder.group({
+          tipo: [endereco.tipo],
+          tipoDescricao: [{value: endereco.tipoDescricao, disabled: true}],
+          logradouro: [endereco.logradouro],
+          complemento: [endereco.complemento],
+          cidade: [endereco.cidade],
+          estado: [endereco.estado],
+          pais: [endereco.pais],
         })
       );
-    });
+    });   
+    console.log('listaDeEnderecos', this.listaDeEnderecos);    
   }
   private prencherListaDeDependentes(listaDeDependentesUsuario: DependenteList) {
     listaDeDependentesUsuario.forEach((dependente) => {

@@ -1,9 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { EnderecoList } from '../../types/endereco-list';
-import { TipoEnderecoEnum } from '../../enums/tipo-endereco.enum';
-import { IEndereco } from '../../interfaces/usuario/endereco.interface';
 import { IEnderecoParaMostrar } from '../../interfaces/endereco-para-mostrar.interface';
-import { descricaoTipoEnderecoMap } from '../../utils/descricao-tipo-endereco-map';
 import { prepararListaEndereco } from '../../utils/preparar-lista-endereco';
 
 @Component({
