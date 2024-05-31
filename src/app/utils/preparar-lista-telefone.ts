@@ -1,10 +1,11 @@
 import { TipoTelefoneEnum } from "../enums/tipo-telefone.enum";
+import { ITelefoneParaMostrar } from "../interfaces/telefone-para-mostrar.interface";
 import { ITelefone } from "../interfaces/usuario/telefone.interface";
 import { TelefoneList } from "../types/telefone-list";
 import { descricaoTipoTelefoneMap } from "./descricao-tipo-telefone-map";
 
 export const prepararListaTelefone = (
-  listaOriginalTelefoneUsuario: TelefoneList, mostrarTelefone: boolean, retorno: (telefone: { tipo: number; tipoDescricao: string; numero: string}) => void) => {
+  listaOriginalTelefoneUsuario: TelefoneList, mostrarTelefone: boolean, retorno: (telefone: ITelefoneParaMostrar) => void) => {
   Object.keys(descricaoTipoTelefoneMap)
     .map(Number)
     .forEach((tipoTelefone: number) => {
@@ -23,8 +24,7 @@ export const prepararListaTelefone = (
 
       retorno({
         tipo: tipoTelefone,
-        tipoDescricao:
-          descricaoTipoTelefoneMap[tipoTelefone as TipoTelefoneEnum],
+        tipoDescricao: descricaoTipoTelefoneMap[tipoTelefone as TipoTelefoneEnum],
         numero,
       });
     });
