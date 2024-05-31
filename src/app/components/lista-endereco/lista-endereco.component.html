@@ -1,0 +1,11 @@
+@for (endereco of listaEnderecoParaMostrar; track $index) {    
+    <div class="p-4 grid sm:grid-cols-2 lg:grid-cols-6">
+        <app-item-informacao-usuario titulo="Tipo" [texto]="endereco.tipoDescricao"/>
+        <app-item-informacao-usuario titulo="Logradouro" [texto]="endereco.logradouro"/>
+        <app-item-informacao-usuario titulo="Complemento" [texto]="endereco.complemento"/>
+        <app-item-informacao-usuario titulo="País" [texto]="endereco.pais"/>
+        <app-item-informacao-usuario titulo="Estado" [texto]="endereco.estado"/>
+        <app-item-informacao-usuario titulo="Cidade" [texto]="endereco.cidade"/>
+    </div>
+    <hr class="block lg:hidden">    
+}

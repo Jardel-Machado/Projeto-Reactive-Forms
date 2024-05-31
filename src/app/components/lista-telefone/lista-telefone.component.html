@@ -1,0 +1,5 @@
+<div class="p-4 grid lg:grid-cols-3 gap-4">
+    @for (telefone of listaTelefoneParaMostrar; track $index) {
+        <app-item-informacao-usuario [titulo]="telefone.tipoDescricao" [texto]="telefone.numero"/>    
+    }
+</div>

@@ -1,0 +1,25 @@
+<div class="p-4">
+    <p class="text-2xl font-semibold">Dependentes:</p>
+    @if (listaDependentes?.length === 0) {
+        <ng-container>
+            <p class="text-lg">O usuário não possui dependentes.</p>
+        </ng-container>
+    }
+    @else{
+        <ng-template [ngTemplateOutlet]="templateListaDependentes"></ng-template>
+    }
+
+    <ng-template #templateListaDependentes>
+        @for (dependente of listaDependentes; track $index) {
+            <div>
+                <div class="grid sm:grid-cols-3">
+                    <app-item-informacao-usuario titulo="Nome" [texto]="dependente.nome"/>
+                    <app-item-informacao-usuario titulo="Idade" [texto]="dependente.idade.toString()"/>
+                    <app-item-informacao-usuario titulo="Documento" [texto]="dependente.documento | cpf : true"/>
+                </div>
+                <hr class="block sm:hidden"/>   
+            </div>
+        }
+    </ng-template>    
+</div>
+

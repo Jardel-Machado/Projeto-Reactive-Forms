@@ -1,0 +1,21 @@
+<mat-tab-group [(selectedIndex)]="indiceAbaAtual">
+    <mat-tab label="Geral">
+        @if(!emModoEdicao){
+            <app-informacoes-geral [usuario]="usuarioSelecionado"> </app-informacoes-geral>
+        }
+        @else{
+            <app-informacoes-geral-editar [usuarioForm]="usuarioForm" [listaPaises]="listaPaises" [listaEstados]="listaEstados" (paisSelecionadoEmit)="paisSelecionado($event)"/>
+        }
+    </mat-tab>
+    <mat-tab label="Contato">
+        <app-informacoes-contato [usuario]="usuarioSelecionado"/>
+        <app-informacoes-contato-editar [usuarioForm]="usuarioForm"/>
+    </mat-tab>
+    <mat-tab label="Dependente">
+        <app-lista-dependentes [listaDependentes]="usuarioSelecionado.listaDeDependentes"/>
+        <app-lista-dependentes-editar/>
+    </mat-tab>
+</mat-tab-group>
+<p>usuarioForm Valido: {{ usuarioForm.valid }}</p>
+<p>informacoesGeral Group Valido: {{ usuarioForm.get('informacoesGeral')?.valid }}</p>
+<button class="rounded-md px-3 py-2 text-lg font-medium leading-5 text-white bg-indigo-600 hover:bg-indigo-500" (click)="mostrarUsuarioForm()">Mostrar Form</button>

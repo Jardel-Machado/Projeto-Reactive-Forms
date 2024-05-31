@@ -1,0 +1,159 @@
+<div class="
+  container
+  bg-blue-300 
+  sm:bg-orange-300 
+  md:bg-red-400  
+  lg:bg-pink-500
+  lg:p-4
+  xl:bg-green-400
+  2xl:bg-slate-400">
+  Minha div
+</div>
+
+<!-- * Cada item dentro de um grid POR PADRÃO ocupa UMA COLUNA.
+* POR PADRÃO não é possível que dois itens ocupem uma mesma coluna*
+
+* 1 - Se a quantidade de itens for MAIOR que a quantidade de COLUNAS,
+* será criada uma nova linha para alocar os itens "vazados".
+
+* 2 - Se eu não especificar a qnt de COLUNAS nem a qnt de LINHAS,
+* será criada um padrão de UMA COLUNA para UMA LINHA.
+
+* 3 - Se eu especificar mais linhas que o necessário, será criada uma nova linha vazia.
+* Com isso a linha vazia criará um espaço vazio no layout.
+
+* 4 - Se eu não especificar a qnt de LINHAS, as linhas serão criadas conforme a demanda. 
+*-->
+
+<div class="grid grid-cols-4 grid-rows-2 p-4 bg-orange-500">
+  <div class="p-4 bg-pink-500">1</div>
+  <div class="p-4 bg-green-500">2</div>
+  <div class="p-4 bg-blue-500">3</div>
+  <div class="p-4 bg-fuchsia-500">4</div>
+  <div class="p-4 bg-pink-500">5</div>
+  <div class="p-4 bg-green-500">6</div>
+  <div class="p-4 bg-blue-500">7</div>
+  <div class="p-4 bg-fuchsia-500">8</div>
+</div>
+
+
+  *1º Caso 
+  <div class="grid grid-cols-4 p-4 bg-orange-500">
+  <div class="p-4 bg-pink-500">1</div>
+  <div class="p-4 bg-green-500">2</div>
+  <div class="p-4 bg-blue-500">3</div>
+  <div class="p-4 bg-fuchsia-500">4</div>
+  <div class="p-4 bg-pink-500">5</div>
+  <div class="p-4 bg-green-500">6</div>
+  <div class="p-4 bg-blue-500">7</div>
+  <div class="p-4 bg-fuchsia-500">8</div>
+</div>
+
+
+  *2º Caso 
+  <div class="grid p-4 bg-orange-500">
+  <div class="p-4 bg-pink-500">1</div>
+  <div class="p-4 bg-green-500">2</div>
+  <div class="p-4 bg-blue-500">3</div>
+  <div class="p-4 bg-fuchsia-500">4</div>
+  <div class="p-4 bg-pink-500">5</div>
+  <div class="p-4 bg-green-500">6</div>
+  <div class="p-4 bg-blue-500">7</div>
+  <div class="p-4 bg-fuchsia-500">8</div>
+</div>
+
+
+  *3º Caso 
+  <div class="grid grid-cols-8 grid-rows-2 p-4 bg-orange-500">
+  <div class="p-4 bg-pink-500">1</div>
+  <div class="p-4 bg-green-500">2</div>
+  <div class="p-4 bg-blue-500">3</div>
+  <div class="p-4 bg-fuchsia-500">4</div>
+  <div class="p-4 bg-pink-500">5</div>
+  <div class="p-4 bg-green-500">6</div>
+  <div class="p-4 bg-blue-500">7</div>
+  <div class="p-4 bg-fuchsia-500">8</div>
+</div>
+
+
+  *4º Caso 
+  <div class="grid grid-cols-4 p-4 bg-orange-500">
+  <div class="p-4 bg-pink-500">1</div>
+  <div class="p-4 bg-green-500">2</div>
+  <div class="p-4 bg-blue-500">3</div>
+  <div class="p-4 bg-fuchsia-500">4</div>
+  <div class="p-4 bg-pink-500">5</div>
+  <div class="p-4 bg-green-500">6</div>
+  <div class="p-4 bg-blue-500">7</div>
+  <div class="p-4 bg-fuchsia-500">8</div>
+</div>
+
+<div class="p-4 bg-orange-500">
+  <div class="p-4 bg-blue-500 grid sm:grid-cols-3">
+    <div class="p-4">
+      <p>CNPJ:</p>
+      <p>112.345.678/0001-00</p>
+    </div>
+    <div class="p-4">
+      <p>Nome:</p>
+      <p>Fulaninho</p>
+    </div>
+    <div class="p-4">
+      <p>Idade:</p>
+      <p>12</p>
+    </div>
+  </div>
+  <div class="p-4 bg-pink-500 grid sm:grid-cols-3">
+    <div class="p-4">
+      <p>CNPJ:</p>
+      <p>112.345.678/0001-00</p>
+    </div>
+    <div class="p-4">
+      <p>Nome:</p>
+      <p>Fulaninho</p>
+    </div>
+    <div class="p-4">
+      <p>Idade:</p>
+      <p>12</p>
+    </div>
+  </div>
+  <div class="p-4 bg-fuchsia-600 grid sm:grid-cols-3">
+    <div class="p-4">
+      <p>CNPJ:</p>
+      <p>112.345.678/0001-00</p>
+    </div>
+    <div class="p-4">
+      <p>Nome:</p>
+      <p>Fulaninho</p>
+    </div>
+    <div class="p-4">
+      <p>Idade:</p>
+      <p>12</p>
+    </div>
+  </div>  
+</div>
+
+<div class="p-5"></div>
+
+<div class="p-4 bg-orange-500 grid md:grid-cols-2 lg:grid-cols-4">
+  <div class="p-4 lg:col-span-2">
+    <p>CNPJ:</p>
+    <input type="text" class="w-full">
+  </div>
+  <div class="p-4 lg:col-span-2">
+    <p>Nome da Empresa:</p>
+    <input type="text" class="w-full">
+  </div>
+  <div class="p-4">
+    <p>Agência:</p>
+    <input type="text" class="w-full">
+  </div>
+  <div class="p-4">
+    <p>Conta:</p>
+    <input type="text" class="w-full">
+  </div>
+  <div class="p-4 lg:col-span-2">
+    <p>Observação:</p>
+    <input type="text" class="w-full">
+  </div> 
+</div>

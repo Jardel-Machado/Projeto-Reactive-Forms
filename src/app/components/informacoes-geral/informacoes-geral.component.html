@@ -1,0 +1,15 @@
+<div class="p-4">
+    <div class="p-4 grid lg:grid-cols-3 gap-4">
+        <app-item-informacao-usuario titulo="Nome" [texto]="usuario?.nome"/>      
+        <app-item-informacao-usuario titulo="Email" [texto]="usuario?.email"/>       
+    </div>
+    <div class="p-4 grid lg:grid-cols-3 gap-4">
+        <app-item-informacao-usuario titulo="País" [texto]="usuario?.pais"/>
+        <app-item-informacao-usuario titulo="Estado" [texto]="usuario?.estado"/>       
+    </div>
+    <div class="p-4 grid lg:grid-cols-3 gap-4">
+        <app-item-informacao-usuario titulo="Estado Civil" [texto]="usuario?.estadoCivil | estadoCivil"/>
+        <app-item-informacao-usuario titulo="Renda Mensal" [texto]="usuario?.rendaMensal | currency : 'BRL' : 'symbol' : '1.2-2' : 'pt-BR'"/>
+        <app-item-informacao-usuario titulo="Data de Nascimento" [texto]="usuario?.dataDeNascimento"/>
+    </div>
+</div>
