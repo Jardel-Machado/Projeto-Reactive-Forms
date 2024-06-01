@@ -1,5 +1,11 @@
 <mat-tab-group [(selectedIndex)]="indiceAbaAtual">
-    <mat-tab label="Geral">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            Geral
+            @if (emModoEdicao && !informacoesGeralValido) {
+                <mat-icon class="red-circle-icon" color="warn">circle</mat-icon>
+            }
+        </ng-template>
         @if(!emModoEdicao){
             <app-informacoes-geral [usuario]="usuarioSelecionado"> </app-informacoes-geral>
         }
@@ -7,7 +13,13 @@
             <app-informacoes-geral-editar [usuarioForm]="usuarioForm" [listaPaises]="listaPaises" [listaEstados]="listaEstados" (paisSelecionadoEmit)="paisSelecionado($event)"/>
         }
     </mat-tab>
-    <mat-tab label="Contato">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            Contato
+            @if (emModoEdicao && !informacoesContatoValido) {
+                <mat-icon class="red-circle-icon" color="warn">circle</mat-icon>
+            }
+        </ng-template>
         @if(!emModoEdicao){
             <app-informacoes-contato [usuario]="usuarioSelecionado"/>
         }
@@ -15,7 +27,13 @@
             <app-informacoes-contato-editar [usuarioForm]="usuarioForm"/>
         }
     </mat-tab>
-    <mat-tab label="Dependente">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            Dependente
+            @if (emModoEdicao && !listaDeDependentesValido) {
+                <mat-icon class="red-circle-icon" color="warn">circle</mat-icon>
+            }
+        </ng-template>
         @if(!emModoEdicao){
             <app-lista-dependentes [listaDependentes]="usuarioSelecionado.listaDeDependentes"/>
         }

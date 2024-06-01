@@ -25,6 +25,10 @@ export class UsuarioFormController {
     return this.usuarioForm.get('informacoesGeral') as FormGroup;
   }
 
+  get informacoesContato(): FormGroup {
+    return this.usuarioForm.get('informacoesContato') as FormGroup;
+  }
+
   get listaDeTelefones(): FormArray {
     return this.usuarioForm.get(
       'informacoesContato.listaDeTelefones'
@@ -41,6 +45,18 @@ export class UsuarioFormController {
     return this.usuarioForm.get('listaDeDependentes') as FormArray;
   }
 
+  get informacoesGeralValido(): boolean {
+    return this.informacoesGeral.valid;
+  }
+
+  get informacoesContatoValido(): boolean {
+    return this.informacoesContato.valid;
+  }
+
+  get listaDeDependentesValido(): boolean {
+    return this.listaDeDependentes.valid;
+  }
+
   preencherUsuarioForm(usuario: IUsuario) {
     this.resetUsuarioForm();
 
@@ -51,17 +67,21 @@ export class UsuarioFormController {
     this.prencherListaDeEnderecos(usuario.listaDeEnderecos);
 
     this.prencherListaDeDependentes(usuario.listaDeDependentes);
+
+    this.usuarioForm.markAllAsTouched();
+
+    this.usuarioForm.updateValueAndValidity();
   }
 
   removerDependente(dependenteIndex: number) {
     this.listaDeDependentes.removeAt(dependenteIndex);
   }
 
-  adicionarDependente(){
+  adicionarDependente() {
     this.listaDeDependentes.push(this.criarGrupoDependente());
-  };
+  }
 
-  private criarGrupoDependente(dependente: IDependente | null = null){
+  private criarGrupoDependente(dependente: IDependente | null = null) {
     if (!dependente) {
       return this.formBuilder.group({
         nome: ['', Validators.required],
@@ -162,7 +182,9 @@ export class UsuarioFormController {
     console.log('listaDeEnderecos', this.listaDeEnderecos);
   }
 
-  private prencherListaDeDependentes(listaDeDependentesUsuario: DependenteList) {
+  private prencherListaDeDependentes(
+    listaDeDependentesUsuario: DependenteList
+  ) {
     listaDeDependentesUsuario.forEach((dependente) => {
       this.listaDeDependentes.push(this.criarGrupoDependente(dependente));
     });
