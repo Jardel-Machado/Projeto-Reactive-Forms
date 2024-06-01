@@ -6,9 +6,10 @@
                 <app-container-botoes 
                     [modoEdicao]="modoEdicao" 
                     (botaoEditar)="metodoBotaoEditar()" 
-                    (botaoCancelar)="metodoBotaoCancelar()"/>           
+                    (botaoCancelar)="metodoBotaoCancelar()"
+                    [habilitarBotaoSalvar]="habilitarBotaoSalvar"/>           
                 
-                <app-container-informacoes-usuario [usuarioSelecionado]="usuarioSelecionado" [emModoEdicao]="modoEdicao"/>
+                <app-container-informacoes-usuario [usuarioSelecionado]="usuarioSelecionado" [emModoEdicao]="modoEdicao" (formStatusChangeEmitt)="formStatusChange($event)"/>
             }
         </mat-card-content>
     </mat-card>

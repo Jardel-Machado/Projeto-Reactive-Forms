@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
-import { take } from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
+import { distinctUntilChanged, take } from 'rxjs';
 import { IUsuario } from '../../interfaces/usuario/usuario.interface';
 import { EstadosService } from '../../services/estados.service';
 import { PaisesService } from '../../services/paises.service';
@@ -12,8 +12,10 @@ import { UsuarioFormController } from './usuario-form-controller';
   templateUrl: './container-informacoes-usuario.component.html',
   styleUrl: './container-informacoes-usuario.component.scss',
 })
-export class ContainerInformacoesUsuarioComponent extends UsuarioFormController implements OnInit, OnChanges{
-
+export class ContainerInformacoesUsuarioComponent
+  extends UsuarioFormController
+  implements OnInit, OnChanges
+{
   indiceAbaAtual: number = 0;
 
   listaPaises: PaisesList = [];
@@ -21,35 +23,37 @@ export class ContainerInformacoesUsuarioComponent extends UsuarioFormController 
   listaEstados: EstadosList = [];
 
   private readonly paisesService = inject(PaisesService);
-  private readonly estadosService = inject(EstadosService);  
+  private readonly estadosService = inject(EstadosService);
 
   @Input({ required: true }) emModoEdicao: boolean = false;
 
   @Input({ required: true }) usuarioSelecionado: IUsuario = {} as IUsuario;
 
+  @Output() formStatusChangeEmitt = new EventEmitter<boolean>();
+
   ngOnInit() {
+    this.usuarioFormStatusChange();
     this.buscarListaPaises();
   }
-  ngOnChanges(changes: SimpleChanges) {    
+  ngOnChanges(changes: SimpleChanges) {
     this.indiceAbaAtual = 0;
 
     const USUARIO_FOI_SELECIONADO =
       changes['usuarioSelecionado'] &&
       Object.keys(changes['usuarioSelecionado'].currentValue).length > 0;
 
-    
-    if (USUARIO_FOI_SELECIONADO) {            
-      this.preencherUsuarioForm(this.usuarioSelecionado);      
-      this.buscarListaEstados(this.usuarioSelecionado.pais);      
-    }   
+    if (USUARIO_FOI_SELECIONADO) {
+      this.preencherUsuarioForm(this.usuarioSelecionado);
+      this.buscarListaEstados(this.usuarioSelecionado.pais);
+    }
   }
   paisSelecionado(nomePais: string) {
     this.buscarListaEstados(nomePais);
   }
 
-  mostrarUsuarioForm() {
-    console.log('UsuarioForm', this.usuarioForm);
-  }
+  private usuarioFormStatusChange() {
+    this.usuarioForm.statusChanges.pipe(distinctUntilChanged()).subscribe(() => this.formStatusChangeEmitt.emit(this.usuarioForm.valid));
+  };
 
   private buscarListaEstados(pais: string) {
     this.estadosService
