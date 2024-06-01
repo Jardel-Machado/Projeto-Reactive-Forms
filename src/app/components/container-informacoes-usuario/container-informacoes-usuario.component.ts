@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
-import { distinctUntilChanged, take } from 'rxjs';
+import { Subscription, distinctUntilChanged, take } from 'rxjs';
 import { IUsuario } from '../../interfaces/usuario/usuario.interface';
 import { EstadosService } from '../../services/estados.service';
 import { PaisesService } from '../../services/paises.service';
@@ -22,14 +22,17 @@ export class ContainerInformacoesUsuarioComponent
 
   listaEstados: EstadosList = [];
 
+  usuarioFormMudancaValorSubs!: Subscription;
+
   private readonly paisesService = inject(PaisesService);
   private readonly estadosService = inject(EstadosService);
 
-  @Input({ required: true }) emModoEdicao: boolean = false;
+  @Input({ required: true }) modoEdicao: boolean = false;
 
   @Input({ required: true }) usuarioSelecionado: IUsuario = {} as IUsuario;
 
   @Output() formStatusChangeEmitt = new EventEmitter<boolean>();
+  @Output() usuarioFormPrimeiraMudancaEmitt = new EventEmitter<void>();
 
   ngOnInit() {
     this.usuarioFormStatusChange();
@@ -43,17 +46,33 @@ export class ContainerInformacoesUsuarioComponent
       Object.keys(changes['usuarioSelecionado'].currentValue).length > 0;
 
     if (USUARIO_FOI_SELECIONADO) {
+      if (this.usuarioFormMudancaValorSubs) this.usuarioFormMudancaValorSubs.unsubscribe();
+      
       this.preencherUsuarioForm(this.usuarioSelecionado);
+      this.usuarioFormPrimeiraMudanca();
       this.buscarListaEstados(this.usuarioSelecionado.pais);
-    }
+    }    
   }
   paisSelecionado(nomePais: string) {
     this.buscarListaEstados(nomePais);
   }
 
+  mostrarForm() {
+    console.log('Form:', this.usuarioForm);
+    console.log('Form is dirty:', this.usuarioForm.dirty);
+  }
+
+  private usuarioFormPrimeiraMudanca() {
+    this.usuarioFormMudancaValorSubs = this.usuarioForm.valueChanges
+      .pipe(take(1))
+      .subscribe(() => this.usuarioFormPrimeiraMudancaEmitt.emit());
+  }
+
   private usuarioFormStatusChange() {
-    this.usuarioForm.statusChanges.pipe(distinctUntilChanged()).subscribe(() => this.formStatusChangeEmitt.emit(this.usuarioForm.valid));
-  };
+    this.usuarioForm.statusChanges
+      .pipe(distinctUntilChanged())
+      .subscribe(() => this.formStatusChangeEmitt.emit(this.usuarioForm.valid));
+  }
 
   private buscarListaEstados(pais: string) {
     this.estadosService

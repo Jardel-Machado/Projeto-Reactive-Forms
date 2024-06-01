@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -20,7 +22,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatAutocompleteModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogActions, 
+    MatDialogClose, 
+    MatDialogTitle, 
+    MatDialogContent,
+    MatButtonModule
   ],
 
   exports: [
@@ -31,7 +38,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatAutocompleteModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogActions, 
+    MatDialogClose, 
+    MatDialogTitle, 
+    MatDialogContent,
+    MatButtonModule
   ],
 
   providers: [

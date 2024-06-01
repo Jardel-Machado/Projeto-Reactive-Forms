@@ -27,8 +27,7 @@ export class InformacoesGeralEditarComponent implements OnInit, OnChanges {
     this.observarAlteracoesFormularioPais();
     this.observarAlteracoesFormularioEstado();
   }
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+  ngOnChanges(changes: SimpleChanges) {    
     this.listaPaisesFiltrados = this.listaPaises;
     this.listaEstadosFiltrados = this.listaEstados;
   }
@@ -55,12 +54,10 @@ export class InformacoesGeralEditarComponent implements OnInit, OnChanges {
 
   private observarAlteracoesFormularioPais() {
     this.paisControl.valueChanges.subscribe(this.filtrarListaPaises.bind(this));
-    // this.paisControl.valueChanges.subscribe((value: string) => {
-    //   this.filtrarListaPaises(value);
-    // });
   }
 
   private filtrarListaPaises(termoPesquisado: string) {
+    if (!termoPesquisado) return;
     this.listaPaisesFiltrados = this.listaPaises.filter((pais) =>
       pais.name
         .toLocaleLowerCase()
@@ -72,13 +69,10 @@ export class InformacoesGeralEditarComponent implements OnInit, OnChanges {
     this.estadoControl.valueChanges.subscribe(
       this.filtrarListaEstados.bind(this)
     );
-
-    // this.paisControl.valueChanges.subscribe((value: string) => {
-    //   this.filtrarListaEstados(value);
-    // });
   }
 
   private filtrarListaEstados(termoPesquisado: string) {
+    if (!termoPesquisado) return;
     this.listaEstadosFiltrados = this.listaEstados.filter((estado) =>
       estado.name
         .toLocaleLowerCase()

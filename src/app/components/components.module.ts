@@ -18,6 +18,7 @@ import { ListaEnderecoEditarComponent } from './lista-endereco-editar/lista-ende
 import { ListaDependentesEditarComponent } from './lista-dependentes-editar/lista-dependentes-editar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { ConfirmacaoDialogComponent } from './confirmacao-dialog/confirmacao-dialog.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     ListaTelefoneEditarComponent,
     ListaEnderecoEditarComponent,
     ListaDependentesEditarComponent,
+    ConfirmacaoDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +53,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     ListaDependentesComponent,
     ContainerBotoesComponent,
     ContainerInformacoesUsuarioComponent,
+    ConfirmacaoDialogComponent,
   ],
   providers: [provideNgxMask()],
 })

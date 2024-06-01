@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PaisesService } from './services/paises.service';
-import { EstadosService } from './services/estados.service';
-import { CidadesService } from './services/cidades.service';
+import { MatDialog } from '@angular/material/dialog';
+import { take } from 'rxjs';
+import { ConfirmacaoDialogComponent } from './components/confirmacao-dialog/confirmacao-dialog.component';
+import { IUsuario } from './interfaces/usuario/usuario.interface';
 import { UsuariosService } from './services/usuarios.service';
 import { ListaDeUsuariosResponse } from './types/lista-de-usuarios-response';
-import { take } from 'rxjs';
-import { IUsuario } from './interfaces/usuario/usuario.interface';
 
 @Component({
   selector: 'app-root',
@@ -23,12 +22,13 @@ export class AppComponent implements OnInit {
 
   habilitarBotaoSalvar: boolean = false;
 
+  usuarioAlterado: boolean = false;
+
   constructor(
-    private readonly paisesService: PaisesService,
-    private readonly estadosService: EstadosService,
-    private readonly cidadesService: CidadesService,
+    private readonly matDialog: MatDialog,
     private readonly usuariosService: UsuariosService
   ) {}
+
   ngOnInit(): void {
     this.buscarUsuarios();
   }
@@ -52,7 +52,24 @@ export class AppComponent implements OnInit {
   }
 
   metodoBotaoCancelar() {
-    this.modoEdicao = false;
+    if (this.usuarioAlterado) {
+      const dialogRef = this.matDialog.open(ConfirmacaoDialogComponent, {
+        data: {
+          title: 'O Formulário foi alterado',
+          message:
+            'Deseja realmente cancelar as alterações feitas no Formulário?',
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((value: boolean) => {
+        if (!value) return;
+
+        this.modoEdicao = false;
+        this.usuarioAlterado = false;
+      });
+    } else {
+      this.modoEdicao = false;
+    }
   }
 
   metodoBotaoEditar() {
@@ -60,6 +77,10 @@ export class AppComponent implements OnInit {
   }
 
   formStatusChange(formStatus: boolean) {
-    setTimeout(() => this.habilitarBotaoSalvar = formStatus, 0);    
+    setTimeout(() => (this.habilitarBotaoSalvar = formStatus), 0);
+  }
+
+  usuarioFormPrimeiraMudanca() {
+    this.usuarioAlterado = true;
   }
 }

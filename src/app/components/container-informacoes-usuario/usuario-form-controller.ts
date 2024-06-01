@@ -66,19 +66,25 @@ export class UsuarioFormController {
 
     this.prencherListaDeEnderecos(usuario.listaDeEnderecos);
 
-    this.prencherListaDeDependentes(usuario.listaDeDependentes);
+    this.prencherListaDeDependentes(usuario.listaDeDependentes);    
 
     this.usuarioForm.markAllAsTouched();
 
-    this.usuarioForm.updateValueAndValidity();
+    this.usuarioForm.updateValueAndValidity();        
+
+    console.log(this.usuarioForm);
   }
 
   removerDependente(dependenteIndex: number) {
     this.listaDeDependentes.removeAt(dependenteIndex);
+
+    this.listaDeDependentes.markAsDirty();
   }
 
   adicionarDependente() {
     this.listaDeDependentes.push(this.criarGrupoDependente());
+
+    this.listaDeDependentes.markAsDirty();
   }
 
   private criarGrupoDependente(dependente: IDependente | null = null) {
@@ -139,8 +145,8 @@ export class UsuarioFormController {
       ...usuario,
       dataDeNascimento: converterDataPtBrParaDataObj(usuario.dataDeNascimento),
     };
-
-    this.informacoesGeral.patchValue(novoUsuario);
+   
+    this.informacoesGeral.patchValue(novoUsuario);   
   }
 
   private prencherListaDeTelefones(listaDeTelefonesUsuario: TelefoneList) {
@@ -178,8 +184,7 @@ export class UsuarioFormController {
           }
         )
       );
-    });
-    console.log('listaDeEnderecos', this.listaDeEnderecos);
+    });    
   }
 
   private prencherListaDeDependentes(

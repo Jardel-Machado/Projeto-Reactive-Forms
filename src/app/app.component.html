@@ -1,15 +1,22 @@
 <div class="p-4 max-w-screen-xl mx-auto">
     <mat-card>
         <mat-card-content>
-            <app-lista-de-usuarios [listaDeUsuarios]="listaDeUsuarios" [modoEdicao]="modoEdicao"  (usuarioSelecionado)="obterUsuarioSelecionado($event)"/>
+            <app-lista-de-usuarios 
+                [modoEdicao]="modoEdicao"  
+                [listaDeUsuarios]="listaDeUsuarios" 
+                (usuarioSelecionado)="obterUsuarioSelecionado($event)"/>
+            
             @if(indexUsuarioSelecionado != undefined){
                 <app-container-botoes 
                     [modoEdicao]="modoEdicao" 
+                    [habilitarBotaoSalvar]="habilitarBotaoSalvar"
                     (botaoEditar)="metodoBotaoEditar()" 
-                    (botaoCancelar)="metodoBotaoCancelar()"
-                    [habilitarBotaoSalvar]="habilitarBotaoSalvar"/>           
+                    (botaoCancelar)="metodoBotaoCancelar()"/>           
                 
-                <app-container-informacoes-usuario [usuarioSelecionado]="usuarioSelecionado" [emModoEdicao]="modoEdicao" (formStatusChangeEmitt)="formStatusChange($event)"/>
+                <app-container-informacoes-usuario 
+                    [modoEdicao]="modoEdicao" 
+                    [usuarioSelecionado]="usuarioSelecionado" 
+                    (formStatusChangeEmitt)="formStatusChange($event)" (usuarioFormPrimeiraMudancaEmitt)="usuarioFormPrimeiraMudanca()"/>
             }
         </mat-card-content>
     </mat-card>
