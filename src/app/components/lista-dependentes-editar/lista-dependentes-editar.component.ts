@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,13 @@ import { FormArray, FormGroup } from '@angular/forms';
 export class ListaDependentesEditarComponent {
   @Input({ required: true }) usuarioForm!: FormGroup;
 
+  @Output() removerDependenteEmitt = new EventEmitter<number>();
+
   get listaDependente(): FormArray {
     return this.usuarioForm.get('listaDeDependentes') as FormArray;
+  }
+
+  removerDependente(dependenteIndex: number){
+    this.removerDependenteEmitt.emit(dependenteIndex);
   }
 }

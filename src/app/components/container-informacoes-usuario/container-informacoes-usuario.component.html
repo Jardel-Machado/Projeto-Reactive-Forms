@@ -20,7 +20,7 @@
             <app-lista-dependentes [listaDependentes]="usuarioSelecionado.listaDeDependentes"/>
         }
         @else{
-            <app-lista-dependentes-editar [usuarioForm]="usuarioForm"/>
+            <app-lista-dependentes-editar [usuarioForm]="usuarioForm" (removerDependenteEmitt)="removerDependente($event)"/>
         }
     </mat-tab>
 </mat-tab-group>
