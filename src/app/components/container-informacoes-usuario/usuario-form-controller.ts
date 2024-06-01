@@ -8,6 +8,7 @@ import { TelefoneList } from '../../types/telefone-list';
 import { converterDataPtBrParaDataObj } from '../../utils/converter-data-pt-br-para-data-obj';
 import { prepararListaTelefone } from '../../utils/preparar-lista-telefone';
 import { prepararListaEndereco } from '../../utils/preparar-lista-endereco';
+import { validacaoEnderecoObrigatorio } from '../../utils/validacao-usuario-form/validacao-endereco-obrigatorio';
 
 export class UsuarioFormController {
   usuarioForm!: FormGroup;
@@ -98,6 +99,8 @@ export class UsuarioFormController {
           cidade: [endereco.cidade],
           estado: [endereco.estado],
           pais: [endereco.pais],
+        }, {
+          validators: validacaoEnderecoObrigatorio
         })
       );
     });   
