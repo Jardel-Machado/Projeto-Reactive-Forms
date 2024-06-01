@@ -10,6 +10,7 @@ export class ListaDependentesEditarComponent {
   @Input({ required: true }) usuarioForm!: FormGroup;
 
   @Output() removerDependenteEmitt = new EventEmitter<number>();
+  @Output() AdicionarDependenteEmitt = new EventEmitter<void>();
 
   get listaDependente(): FormArray {
     return this.usuarioForm.get('listaDeDependentes') as FormArray;
@@ -17,5 +18,9 @@ export class ListaDependentesEditarComponent {
 
   removerDependente(dependenteIndex: number){
     this.removerDependenteEmitt.emit(dependenteIndex);
+  }
+
+  adicionarDependente(){
+    this.AdicionarDependenteEmitt.emit();
   }
 }

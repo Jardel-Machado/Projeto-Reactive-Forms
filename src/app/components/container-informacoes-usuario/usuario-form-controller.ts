@@ -9,6 +9,7 @@ import { converterDataPtBrParaDataObj } from '../../utils/converter-data-pt-br-p
 import { prepararListaTelefone } from '../../utils/preparar-lista-telefone';
 import { prepararListaEndereco } from '../../utils/preparar-lista-endereco';
 import { validacaoEnderecoObrigatorio } from '../../utils/validacao-usuario-form/validacao-endereco-obrigatorio';
+import { IDependente } from '../../interfaces/usuario/dependente.interface';
 
 export class UsuarioFormController {
   usuarioForm!: FormGroup;
@@ -52,8 +53,28 @@ export class UsuarioFormController {
     this.prencherListaDeDependentes(usuario.listaDeDependentes);
   }
 
-  removerDependente(dependenteIndex: number){
+  removerDependente(dependenteIndex: number) {
     this.listaDeDependentes.removeAt(dependenteIndex);
+  }
+
+  adicionarDependente(){
+    this.listaDeDependentes.push(this.criarGrupoDependente());
+  };
+
+  private criarGrupoDependente(dependente: IDependente | null = null){
+    if (!dependente) {
+      return this.formBuilder.group({
+        nome: ['', Validators.required],
+        idade: ['', Validators.required],
+        documento: ['', Validators.required],
+      });
+    }
+
+    return this.formBuilder.group({
+      nome: [dependente.nome, Validators.required],
+      idade: [dependente.idade, Validators.required],
+      documento: [dependente.documento, Validators.required],
+    });
   }
 
   private resetUsuarioForm() {
@@ -143,13 +164,7 @@ export class UsuarioFormController {
 
   private prencherListaDeDependentes(listaDeDependentesUsuario: DependenteList) {
     listaDeDependentesUsuario.forEach((dependente) => {
-      this.listaDeDependentes.push(
-        this.formBuilder.group({
-          nome: [dependente.nome, Validators.required],
-          idade: [dependente.idade, Validators.required],
-          documento: [dependente.documento, Validators.required],
-        })
-      );
+      this.listaDeDependentes.push(this.criarGrupoDependente(dependente));
     });
   }
 }

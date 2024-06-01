@@ -1,7 +1,7 @@
 <form [formGroup]="usuarioForm">
     <p class="text-xl font-semibold">Dependentes:</p>
     <div>
-        <button class="rounded-md px-3 py-2 text-lg font-medium leading-5 text-white bg-green-600 hover:bg-green-500">
+        <button class="rounded-md px-3 py-2 text-lg font-medium leading-5 text-white bg-green-600 hover:bg-green-500" (click)="adicionarDependente()">
             Novo Dependente
         </button>
     </div>
