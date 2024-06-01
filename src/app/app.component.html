@@ -1,7 +1,7 @@
 <div class="p-4 max-w-screen-xl mx-auto">
     <mat-card>
         <mat-card-content>
-            <app-lista-de-usuarios [listaDeUsuarios]="listaDeUsuarios" (usuarioSelecionado)="obterUsuarioSelecionado($event)"/>
+            <app-lista-de-usuarios [listaDeUsuarios]="listaDeUsuarios" [modoEdicao]="modoEdicao"  (usuarioSelecionado)="obterUsuarioSelecionado($event)"/>
             @if(indexUsuarioSelecionado != undefined){
                 <app-container-botoes 
                     [modoEdicao]="modoEdicao" 
