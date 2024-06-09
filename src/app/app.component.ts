@@ -6,6 +6,9 @@ import { IUsuario } from './interfaces/usuario/usuario.interface';
 import { UsuariosService } from './services/usuarios.service';
 import { ListaDeUsuariosResponse } from './types/lista-de-usuarios-response';
 import { IDialogConfirmationData } from './interfaces/dialog-confirmation-data.interface';
+import { EditarUsuarioService } from './services/editar-usuario.service';
+import { UsuarioFormBrutoService } from './services/usuario-form-bruto.service';
+import { converterUsuarioFormParaUsuario } from './utils/converter-usuario-form-para-usuario';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +30,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly matDialog: MatDialog,
-    private readonly usuariosService: UsuariosService
+    private readonly usuariosService: UsuariosService,
+    private readonly editarUsuarioService: EditarUsuarioService,
+    private readonly usuarioFormBrutoService: UsuarioFormBrutoService
   ) {}
 
   ngOnInit(): void {
@@ -54,12 +59,14 @@ export class AppComponent implements OnInit {
 
   metodoBotaoCancelar() {
     if (this.usuarioAlterado) {
-      this.abrirDialogConfirmacao({
+      this.abrirDialogConfirmacao(
+        {
           title: 'O formulário foi alterado',
-          message: 'Deseja realmente cancelar as alterações feitas no formulário?'
+          message:
+            'Deseja realmente cancelar as alterações feitas no formulário?',
         },
         (value: boolean) => {
-          if(!value) return
+          if (!value) return;
           this.modoEdicao = false;
           this.usuarioAlterado = false;
         }
@@ -70,24 +77,26 @@ export class AppComponent implements OnInit {
   }
 
   metodoBotaoEditar() {
+    this.usuarioSelecionado = structuredClone(this.usuarioSelecionado);
     this.modoEdicao = true;
   }
 
-  metodoBotaoSalvar(){
-    this.abrirDialogConfirmacao({
+  metodoBotaoSalvar() {
+    this.abrirDialogConfirmacao(
+      {
         title: 'Confirmar alteração de dados',
-        message: 'Deseja realmente salvar os valores alterados?'    
+        message: 'Deseja realmente salvar os valores alterados?',
       },
       (value: boolean) => {
-        if(!value) return;
+        if (!value) return;
 
         this.salvarInformacoesUsuario();
 
         this.modoEdicao = false;
-        this.usuarioAlterado = false;        
+        this.usuarioAlterado = false;
       }
     );
-  };
+  }
 
   formStatusChange(formStatus: boolean) {
     setTimeout(() => (this.habilitarBotaoSalvar = formStatus), 0);
@@ -97,7 +106,10 @@ export class AppComponent implements OnInit {
     this.usuarioAlterado = true;
   }
 
-  private abrirDialogConfirmacao(data: IDialogConfirmationData, retorno: (value: boolean) => void) {
+  private abrirDialogConfirmacao(
+    data: IDialogConfirmationData,
+    retorno: (value: boolean) => void
+  ) {
     const dialogRef = this.matDialog.open(ConfirmacaoDialogComponent, {
       data,
     });
@@ -105,7 +117,17 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(retorno);
   }
 
-  private salvarInformacoesUsuario() {
-    console.log('Valores alterados!');
-  }
+  private salvarInformacoesUsuario() {    
+    
+    const novoUsuario: IUsuario = converterUsuarioFormParaUsuario(this.usuarioFormBrutoService.valorUsuarioFormBruto);    
+
+    this.editarUsuarioService
+      .editarUsuario(novoUsuario)
+      .subscribe((usuarioEditado: IUsuario) => {
+        if (this.indexUsuarioSelecionado === undefined) return;
+
+        this.listaDeUsuarios[this.indexUsuarioSelecionado] = usuarioEditado;
+        this.usuarioSelecionado = structuredClone(usuarioEditado);       
+      });
+  }  
 }

@@ -5,7 +5,7 @@ import { TelefoneList } from "../types/telefone-list";
 import { descricaoTipoTelefoneMap } from "./descricao-tipo-telefone-map";
 
 export const prepararListaTelefone = (
-  listaOriginalTelefoneUsuario: TelefoneList, mostrarTelefone: boolean, retorno: (telefone: ITelefoneParaMostrar) => void) => {
+  listaOriginalTelefoneUsuario: TelefoneList, mostrarTelefone: boolean, retorno: (telefone: ITelefoneParaMostrar) => void) => {    
   Object.keys(descricaoTipoTelefoneMap)
     .map(Number)
     .forEach((tipoTelefone: number) => {
@@ -20,7 +20,7 @@ export const prepararListaTelefone = (
       }
       else{
         numero = telefoneEncontrado ? formatarNumeroTelefoneParaEdicao(telefoneEncontrado) : '';
-      }
+      }      
 
       retorno({
         tipo: tipoTelefone,

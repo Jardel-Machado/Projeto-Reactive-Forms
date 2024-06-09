@@ -10,15 +10,19 @@ import { prepararListaTelefone } from '../../utils/preparar-lista-telefone';
 import { prepararListaEndereco } from '../../utils/preparar-lista-endereco';
 import { validacaoEnderecoObrigatorio } from '../../utils/validacao-usuario-form/validacao-endereco-obrigatorio';
 import { IDependente } from '../../interfaces/usuario/dependente.interface';
+import { UsuarioFormBrutoService } from '../../services/usuario-form-bruto.service';
 
 export class UsuarioFormController {
   usuarioForm!: FormGroup;
   private emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  private formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(FormBuilder);
+
+  private readonly usuarioFormBrutoService = inject(UsuarioFormBrutoService);
 
   constructor() {
     this.criarUsuarioForm();
+    this.assistirMudancaNoValorUsuarioFormEEditarServico();
   }
 
   get informacoesGeral(): FormGroup {
@@ -66,13 +70,11 @@ export class UsuarioFormController {
 
     this.prencherListaDeEnderecos(usuario.listaDeEnderecos);
 
-    this.prencherListaDeDependentes(usuario.listaDeDependentes);    
+    this.prencherListaDeDependentes(usuario.listaDeDependentes);
 
     this.usuarioForm.markAllAsTouched();
 
-    this.usuarioForm.updateValueAndValidity();        
-
-    console.log(this.usuarioForm);
+    this.usuarioForm.updateValueAndValidity();    
   }
 
   removerDependente(dependenteIndex: number) {
@@ -84,7 +86,7 @@ export class UsuarioFormController {
   adicionarDependente() {
     this.listaDeDependentes.push(this.criarGrupoDependente());
 
-    this.listaDeDependentes.markAsDirty();
+    this.listaDeDependentes.markAsDirty();    
   }
 
   private criarGrupoDependente(dependente: IDependente | null = null) {
@@ -98,8 +100,14 @@ export class UsuarioFormController {
 
     return this.formBuilder.group({
       nome: [dependente.nome, Validators.required],
-      idade: [dependente.idade, Validators.required],
+      idade: [dependente.idade.toString(), Validators.required],
       documento: [dependente.documento, Validators.required],
+    });
+  }
+
+  private assistirMudancaNoValorUsuarioFormEEditarServico() {
+    this.usuarioForm.valueChanges.subscribe(() => {
+      this.usuarioFormBrutoService.valorUsuarioFormBruto = this.usuarioForm.getRawValue();
     });
   }
 
@@ -145,11 +153,11 @@ export class UsuarioFormController {
       ...usuario,
       dataDeNascimento: converterDataPtBrParaDataObj(usuario.dataDeNascimento),
     };
-   
-    this.informacoesGeral.patchValue(novoUsuario);   
+
+    this.informacoesGeral.patchValue(novoUsuario);
   }
 
-  private prencherListaDeTelefones(listaDeTelefonesUsuario: TelefoneList) {
+  private prencherListaDeTelefones(listaDeTelefonesUsuario: TelefoneList) {    
     prepararListaTelefone(listaDeTelefonesUsuario, false, (telefone) => {
       const telefoneValidators =
         telefone.tipo === TipoTelefoneEnum.Emergencia
@@ -162,7 +170,7 @@ export class UsuarioFormController {
           tipoDescricao: [telefone.tipoDescricao],
           numero: [telefone.numero, telefoneValidators],
         })
-      );
+      );      
     });
   }
 
@@ -184,12 +192,10 @@ export class UsuarioFormController {
           }
         )
       );
-    });    
+    });
   }
 
-  private prencherListaDeDependentes(
-    listaDeDependentesUsuario: DependenteList
-  ) {
+  private prencherListaDeDependentes(listaDeDependentesUsuario: DependenteList) {
     listaDeDependentesUsuario.forEach((dependente) => {
       this.listaDeDependentes.push(this.criarGrupoDependente(dependente));
     });

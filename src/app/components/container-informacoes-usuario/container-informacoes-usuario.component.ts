@@ -38,7 +38,8 @@ export class ContainerInformacoesUsuarioComponent
     this.usuarioFormStatusChange();
     this.buscarListaPaises();
   }
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {    
+
     this.indiceAbaAtual = 0;
 
     const USUARIO_FOI_SELECIONADO =
@@ -55,11 +56,6 @@ export class ContainerInformacoesUsuarioComponent
   }
   paisSelecionado(nomePais: string) {
     this.buscarListaEstados(nomePais);
-  }
-
-  mostrarForm() {
-    console.log('Form:', this.usuarioForm);
-    console.log('Form is dirty:', this.usuarioForm.dirty);
   }
 
   private usuarioFormPrimeiraMudanca() {
