@@ -5,6 +5,7 @@ import { ConfirmacaoDialogComponent } from './components/confirmacao-dialog/conf
 import { IUsuario } from './interfaces/usuario/usuario.interface';
 import { UsuariosService } from './services/usuarios.service';
 import { ListaDeUsuariosResponse } from './types/lista-de-usuarios-response';
+import { IDialogConfirmationData } from './interfaces/dialog-confirmation-data.interface';
 
 @Component({
   selector: 'app-root',
@@ -53,20 +54,16 @@ export class AppComponent implements OnInit {
 
   metodoBotaoCancelar() {
     if (this.usuarioAlterado) {
-      const dialogRef = this.matDialog.open(ConfirmacaoDialogComponent, {
-        data: {
-          title: 'O Formulário foi alterado',
-          message:
-            'Deseja realmente cancelar as alterações feitas no Formulário?',
+      this.abrirDialogConfirmacao({
+          title: 'O formulário foi alterado',
+          message: 'Deseja realmente cancelar as alterações feitas no formulário?'
         },
-      });
-
-      dialogRef.afterClosed().subscribe((value: boolean) => {
-        if (!value) return;
-
-        this.modoEdicao = false;
-        this.usuarioAlterado = false;
-      });
+        (value: boolean) => {
+          if(!value) return
+          this.modoEdicao = false;
+          this.usuarioAlterado = false;
+        }
+      );
     } else {
       this.modoEdicao = false;
     }
@@ -76,11 +73,39 @@ export class AppComponent implements OnInit {
     this.modoEdicao = true;
   }
 
+  metodoBotaoSalvar(){
+    this.abrirDialogConfirmacao({
+        title: 'Confirmar alteração de dados',
+        message: 'Deseja realmente salvar os valores alterados?'    
+      },
+      (value: boolean) => {
+        if(!value) return;
+
+        this.salvarInformacoesUsuario();
+
+        this.modoEdicao = false;
+        this.usuarioAlterado = false;        
+      }
+    );
+  };
+
   formStatusChange(formStatus: boolean) {
     setTimeout(() => (this.habilitarBotaoSalvar = formStatus), 0);
   }
 
   usuarioFormPrimeiraMudanca() {
     this.usuarioAlterado = true;
+  }
+
+  private abrirDialogConfirmacao(data: IDialogConfirmationData, retorno: (value: boolean) => void) {
+    const dialogRef = this.matDialog.open(ConfirmacaoDialogComponent, {
+      data,
+    });
+
+    dialogRef.afterClosed().subscribe(retorno);
+  }
+
+  private salvarInformacoesUsuario() {
+    console.log('Valores alterados!');
   }
 }

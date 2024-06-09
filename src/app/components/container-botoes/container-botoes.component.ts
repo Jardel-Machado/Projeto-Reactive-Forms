@@ -12,6 +12,7 @@ export class ContainerBotoesComponent {
 
   @Output('botaoEditar') botaoEditarEmitt = new EventEmitter<void>();
   @Output('botaoCancelar') botaoCancelarEmitt = new EventEmitter<void>();
+  @Output('botaoSalvar') botaoSalvarEmitt = new EventEmitter<void>();
 
   botaoEditar() {
     this.botaoEditarEmitt.emit();
@@ -19,5 +20,9 @@ export class ContainerBotoesComponent {
 
   botaoCancelar() {
     this.botaoCancelarEmitt.emit();
+  }
+
+  botaoSalvar() {
+    this.botaoSalvarEmitt.emit();
   }
 }
